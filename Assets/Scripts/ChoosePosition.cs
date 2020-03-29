@@ -7,7 +7,7 @@ public class ChoosePosition : MonoBehaviour
     {
         GameObject lastCube = GameManager.Instance.CubeBehaviour.LastCube;
         lastCube.transform.position = transform.position;
-        GameManager.Instance.FreeSpots.DeactiveFreeSpots();
-        GameManager.Instance.NextTurn();
+        GameManager.Instance.AddScoreEvent();
+        GameManager.Instance.ChangeTurnEvent();
     }
 }

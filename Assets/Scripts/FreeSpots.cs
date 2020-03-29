@@ -8,6 +8,7 @@ public class FreeSpots : MonoBehaviour
     public GameObject freeSpot;
     private GameObject lastCube;
     private int lengthList;
+    private int freeSpotsCount = 0;
     private void Start()
     {
         freeSpotsList = new List<GameObject>();
@@ -21,10 +22,14 @@ public class FreeSpots : MonoBehaviour
         List<GameObject> cubesList = GameManager.Instance.CubeBehaviour.CubesList;
         lengthList = cubesList.Count - 1;
         Vector3 DPosition;
+        bool firstCube = false;
         for(int i = 0; i < cubesList.Count; i++)
         {
             if (CheckOnFirstCube(cubesList, lastCube))
+            {
+                firstCube = true;
                 break;
+            }
             if ((GameManager.Instance.FirstPlayerTurn && cubesList[i].CompareTag("secondPlayerCube")) ||
                (!GameManager.Instance.FirstPlayerTurn && cubesList[i].CompareTag("firstPlayerCube")))
                 continue;
@@ -44,6 +49,9 @@ public class FreeSpots : MonoBehaviour
             }
             CreateOverlap(DPosition, cubesList[i]);
         }
+        if (freeSpotsCount == 0 && !firstCube)
+            GameManager.Instance.EndGameEvent();
+        freeSpotsCount = 0;
     }
 
     private void CreateOverlap(Vector3 DPosition, GameObject cube)
@@ -61,9 +69,12 @@ public class FreeSpots : MonoBehaviour
     }
     private void CheckOverlaps(int overlapsCount, Vector3 overlapPos, Vector3 scale)
     {
-        if ((((overlapPos.x + scale.x / 2) <= 120f) && ((overlapPos.x - scale.x / 2) >= -180f) && ((overlapPos.y + scale.y / 2) <= 145f) && 
+        if ((((overlapPos.x + scale.x / 2) <= 120f) && ((overlapPos.x - scale.x / 2) >= -180f) && ((overlapPos.y + scale.y / 2) <= 145f) &&
             ((overlapPos.y - scale.y / 2) >= -35f)) && overlapsCount == 0)
+        {
             CreateFreeSpot(overlapPos);
+            freeSpotsCount++;
+        }
     }
 
     private bool CheckOnFirstCube(List<GameObject> cubesList, GameObject lastCube)
