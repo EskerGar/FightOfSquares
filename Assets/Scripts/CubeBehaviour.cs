@@ -26,9 +26,15 @@ public class CubeBehaviour : MonoBehaviour
             go.transform.localScale = scale;
             go.transform.position = new Vector3(170f, 70f, 115);
             if (GameManager.Instance.FirstPlayerTurn)
+            {
                 go.tag = "firstPlayerCube";
+                go.GetComponent<MeshRenderer>().material = Resources.Load("FirstPlayer") as Material;
+            }
             else
+            {
                 go.tag = "secondPlayerCube";
+                go.GetComponent<MeshRenderer>().material = Resources.Load("SecondPlayer") as Material;
+            }
             CubesList.Add(go);
             LastCube = go;
             CubeCreated = true;

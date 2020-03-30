@@ -19,17 +19,17 @@ public class GameManager : MonoBehaviour
     private void Awake() 
     { 
         if (Instance == null) 
-            Instance = this; 
+            Instance = this;
+        CubeBehaviour = GetComponent<CubeBehaviour>();
+        FreeSpots = GetComponent<FreeSpots>();
+        endGame = GetComponent<EndGame>();
     }
 
     private void Start()
     {
         GetFirstTurnRandom();
-        CubeBehaviour = GetComponent<CubeBehaviour>();
-        FreeSpots = GetComponent<FreeSpots>();
         uiScore = UI.GetComponent<UIScore>();
         uiTurn = UI.GetComponent<UITurn>();
-        endGame = GetComponent<EndGame>();
         OnAddScore += AddScore;
         OnAddScore += uiScore.ChangeScore;
         OnEndGame += endGame.GameEnded;
