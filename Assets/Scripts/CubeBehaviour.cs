@@ -13,7 +13,13 @@ public class CubeBehaviour : MonoBehaviour
     private void Start()
     {
         CubesList = new List<GameObject>();
-        OnGenerateCube += GameManager.Instance.FreeSpots.GenerateFreeSpots;
+        OnGenerateCube += GameManager.Instance.FreeSpots.StartGenerateFreeSpots;
+    }
+
+    public void GenerationCube()
+    {
+        Vector3 scale = new Vector3(Random.Range(1, 6) * 10, Random.Range(1, 6) * 10, .1f);
+        GameManager.Instance.CubeBehaviour.CreateCube(scale);
     }
 
     public void CubeRefresh() => CubeCreated = false;

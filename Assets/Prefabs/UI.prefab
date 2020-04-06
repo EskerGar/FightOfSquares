@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.062745094, g: 1, b: 0.06733628, a: 1}
+  m_Color: {r: 0.002625496, g: 0.5566038, b: 0.004943345, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -345,7 +345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.7096046, b: 0.0047169924, a: 1}
+  m_Color: {r: 0.6415094, g: 0.45461297, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -475,8 +475,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -68.1, y: 1.15}
-  m_SizeDelta: {x: 664.5, y: 400.9}
+  m_AnchoredPosition: {x: -67, y: 1.15}
+  m_SizeDelta: {x: 665, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7217022762191528410
 CanvasRenderer:
@@ -526,7 +526,6 @@ GameObject:
   - component: {fileID: 7217022762239010599}
   - component: {fileID: 7217022762239010598}
   - component: {fileID: 7217022762239010601}
-  - component: {fileID: 7217022762239010596}
   m_Layer: 5
   m_Name: GenerationButton
   m_TagString: Untagged
@@ -551,7 +550,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 372, y: 180}
+  m_AnchoredPosition: {x: 364, y: 180}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7217022762239010599
@@ -633,7 +632,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7217022762239010596}
+      - m_Target: {fileID: 933588912500183661, guid: d1c013da4c731524298c2727602d5a9e,
+          type: 3}
         m_MethodName: GenerationCube
         m_Mode: 1
         m_Arguments:
@@ -644,18 +644,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7217022762239010596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7217022762239010603}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 781e3bc8adc2e8741b6e952e749492bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7383690477927496797
 GameObject:
   m_ObjectHideFlags: 0
@@ -714,7 +702,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.97407734, b: 0, a: 1}
+  m_Color: {r: 0.6792453, g: 0.66139096, b: 0.028835872, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

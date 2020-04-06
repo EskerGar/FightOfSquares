@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEditor.Build;
 using UnityEngine;
 
 public class FreeSpots : MonoBehaviour
@@ -9,21 +10,31 @@ public class FreeSpots : MonoBehaviour
     private GameObject lastCube;
     private int lengthList;
     private int freeSpotsCount = 0;
-    private void Start()
+    private Vector2 borderY, borderX;
+    private Vector3 overlapPosition, scale;
+    public bool NoSpots { get; private set; }
+    private void Awake()
     {
         freeSpotsList = new List<GameObject>();
         deactivateFreeSpotsList = new List<GameObject>();
     }
 
-    public void GenerateFreeSpots()
+    public void StartGenerateFreeSpots()
     {
-        float dX, dY;
+        GenerateFreeSpots();
+        if (NoSpots)
+            GameManager.Instance.ChangeTurnEvent();
+    }
+
+    private void GenerateFreeSpots()
+    {
         lastCube = GameManager.Instance.CubeBehaviour.LastCube;
         List<GameObject> cubesList = GameManager.Instance.CubeBehaviour.CubesList;
         lengthList = cubesList.Count - 1;
-        Vector3 DPosition;
+        Vector3 currentCubeScale, currentCubePos;
         bool firstCube = false;
-        for(int i = 0; i < cubesList.Count; i++)
+        scale = lastCube.transform.localScale;
+        for (int i = 0; i < cubesList.Count; i++)
         {
             if (CheckOnFirstCube(cubesList, lastCube))
             {
@@ -35,38 +46,83 @@ public class FreeSpots : MonoBehaviour
                 continue;
             if (cubesList[i] == lastCube)
                 continue;
-            if (cubesList[i].CompareTag("firstPlayerCube"))
-            {
-                dX = -cubesList[i].transform.localScale.x / 2 - lastCube.transform.localScale.x / 2;
-                dY = -cubesList[i].transform.localScale.y / 2 + lastCube.transform.localScale.y / 2;
-                DPosition = new Vector3(dX, dY) ;
-            }
-            else
-            {
-                dX = cubesList[i].transform.localScale.x / 2 + lastCube.transform.localScale.x / 2;
-                dY = cubesList[i].transform.localScale.y / 2 - lastCube.transform.localScale.y / 2;
-                DPosition = new Vector3(dX, dY) ;
-            }
-            CreateOverlap(DPosition, cubesList[i]);
+            currentCubeScale = cubesList[i].transform.localScale;
+            currentCubePos = cubesList[i].transform.position;
+            borderX = new Vector2(currentCubePos.x - currentCubeScale.x / 2, currentCubePos.x + currentCubeScale.x / 2);
+            borderY = new Vector2(currentCubePos.y - currentCubeScale.y / 2, currentCubePos.y + currentCubeScale.y / 2);
+            CreateOverlapPos(cubesList[i]);
         }
         if (freeSpotsCount == 0 && !firstCube)
-            GameManager.Instance.EndGameEvent();
+        {
+            GameManager.Instance.CubeBehaviour.CubesList.Remove(lastCube);
+            Destroy(lastCube);
+            NoSpots = true;
+        }
+        else NoSpots = false;
         freeSpotsCount = 0;
     }
 
-    private void CreateOverlap(Vector3 DPosition, GameObject cube)
+    private void CreateOverlapPos(GameObject cube)
     {
-        Vector3 scale = lastCube.transform.localScale;
-        Vector3 overlapPosition = cube.transform.position + DPosition;
-        Collider2D[] results = new Collider2D[lengthList];
-        CheckOverlaps(Physics2D.OverlapBoxNonAlloc(overlapPosition, scale, 0, results, LayerMask.GetMask("CubeLayer")), overlapPosition, scale);
-        if(cube.CompareTag("firstPlayerCube"))
-            DPosition = new Vector3(DPosition.x + cube.transform.localScale.x, DPosition.y + cube.transform.localScale.y);
-        else
-            DPosition = new Vector3(DPosition.x - cube.transform.localScale.x, DPosition.y - cube.transform.localScale.y);
+        float dX, dY;
+        Vector3 DPosition, currentCubeScale = cube.transform.localScale;
+        //CheckLeft
+        dX = -currentCubeScale.x / 2 - scale.x / 2;
+        dY = -currentCubeScale.y / 2 + scale.y / 2;
+        DPosition = new Vector3(dX, dY);
         overlapPosition = cube.transform.position + DPosition;
-        CheckOverlaps(Physics2D.OverlapBoxNonAlloc(overlapPosition, scale, 0, results, LayerMask.GetMask("CubeLayer")), overlapPosition, scale);
+        CheckY(1);
+        DPosition = new Vector3(dX, -dY);
+        overlapPosition = cube.transform.position + DPosition;
+        CheckY(-1);
+        //CheckUp
+        DPosition = new Vector3(dX + currentCubeScale.x, dY + currentCubeScale.y);
+        overlapPosition = cube.transform.position + DPosition;
+        CheckX(-1);
+        DPosition = new Vector3(dX + scale.x, dY + currentCubeScale.y);
+        overlapPosition = cube.transform.position + DPosition;
+        CheckX(1);
+        //CheckRight
+        dX = currentCubeScale.x / 2 + scale.x / 2;
+        dY = currentCubeScale.y / 2 - scale.y / 2;
+        DPosition = new Vector3(dX, dY);
+        overlapPosition = cube.transform.position + DPosition;
+        CheckY(-1);
+        DPosition = new Vector3(dX, -dY);
+        overlapPosition = cube.transform.position + DPosition;
+        CheckY(1);
+        //CheckDown
+        DPosition = new Vector3(dX - currentCubeScale.x, dY - currentCubeScale.y);
+        overlapPosition = cube.transform.position + DPosition;
+        CheckX(1);
+        DPosition = new Vector3(dX - scale.x, dY - currentCubeScale.y);
+        overlapPosition = cube.transform.position + DPosition;
+        CheckX(-1);
     }
+
+    private void CheckX(int sign)
+    {
+        float cubeBorderMin, cubeBorderMax;
+        do
+        {
+            CheckOverlaps(Physics2D.OverlapBoxNonAlloc(overlapPosition, scale, 0, new Collider2D[lengthList], LayerMask.GetMask("CubeLayer")), overlapPosition, scale);
+            overlapPosition += sign * new Vector3(scale.x, 0, 0);
+            cubeBorderMax = overlapPosition.x + scale.x / 2;
+            cubeBorderMin = overlapPosition.x - scale.x / 2;
+        } while (cubeBorderMin > borderX.x && cubeBorderMax < borderX.y);
+    }
+    private void CheckY(int sign)
+    {
+        float cubeBorderMin, cubeBorderMax;
+        do
+        {
+            CheckOverlaps(Physics2D.OverlapBoxNonAlloc(overlapPosition, scale, 0, new Collider2D[lengthList], LayerMask.GetMask("CubeLayer")), overlapPosition, scale);
+            overlapPosition += sign * new Vector3(0, scale.y);
+            cubeBorderMax = overlapPosition.y + scale.y / 2;
+            cubeBorderMin = overlapPosition.y - scale.y / 2;
+        } while (cubeBorderMin > borderY.x && cubeBorderMax < borderY.y);
+    }
+
     private void CheckOverlaps(int overlapsCount, Vector3 overlapPos, Vector3 scale)
     {
         if ((((overlapPos.x + scale.x / 2) <= 120f) && ((overlapPos.x - scale.x / 2) >= -180f) && ((overlapPos.y + scale.y / 2) <= 145f) &&

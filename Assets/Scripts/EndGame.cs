@@ -12,7 +12,6 @@ public class EndGame : MonoBehaviour
     {
         button.SetActive(false);
         winner.SetActive(true);
-        GameManager.Instance.CubeBehaviour.LastCube.SetActive(false);
         winner.GetComponent<Text>().text = WhoIsWin();
     }
 

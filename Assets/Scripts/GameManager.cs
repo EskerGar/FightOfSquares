@@ -23,10 +23,6 @@ public class GameManager : MonoBehaviour
         CubeBehaviour = GetComponent<CubeBehaviour>();
         FreeSpots = GetComponent<FreeSpots>();
         endGame = GetComponent<EndGame>();
-    }
-
-    private void Start()
-    {
         GetFirstTurnRandom();
         uiScore = UI.GetComponent<UIScore>();
         uiTurn = UI.GetComponent<UITurn>();
@@ -44,10 +40,11 @@ public class GameManager : MonoBehaviour
         FreeSpots.DeactiveFreeSpots();
         CubeBehaviour.CubeRefresh();
         FirstPlayerTurn = !FirstPlayerTurn;
+        if(FreeSpots.NoSpots)
+            CubeBehaviour.GenerationCube();
     }
 
     public void AddScoreEvent() => OnAddScore?.Invoke();
-    public void EndGameEvent() => OnEndGame?.Invoke();
     public void ChangeTurnEvent() => OnTurnChange?.Invoke();
     private void AddScore()
     {
@@ -56,5 +53,7 @@ public class GameManager : MonoBehaviour
         if (cube.CompareTag("firstPlayerCube"))
             FirstPlayerScore += score;
         else SecondPlayerScore += score;
+        if (FirstPlayerScore + SecondPlayerScore == 540)
+            OnEndGame?.Invoke();
     }
 }

@@ -305,7 +305,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.15468137, g: 0.25595304, b: 0.41509432, a: 0}
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -480,6 +480,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4313334731022922163, guid: 7fdcf78147290854a96c35ecc837d95c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -4.949997
+      objectReference: {fileID: 0}
     - target: {fileID: 6573133445680878074, guid: 7fdcf78147290854a96c35ecc837d95c,
         type: 3}
       propertyPath: m_Name
@@ -494,6 +499,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949749726618201043, guid: 7fdcf78147290854a96c35ecc837d95c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 64.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949749726618201043, guid: 7fdcf78147290854a96c35ecc837d95c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 81.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949749726618201043, guid: 7fdcf78147290854a96c35ecc837d95c,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 887
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949749726618201043, guid: 7fdcf78147290854a96c35ecc837d95c,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1660.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7949749726618201043, guid: 7fdcf78147290854a96c35ecc837d95c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 280
+      objectReference: {fileID: 0}
+    - target: {fileID: 8700197073494207480, guid: 7fdcf78147290854a96c35ecc837d95c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9159711687864479127, guid: 7fdcf78147290854a96c35ecc837d95c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5507291952074589086, guid: 7fdcf78147290854a96c35ecc837d95c, type: 3}
