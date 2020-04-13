@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6327278699522547506}
   - component: {fileID: 265371196127161341}
   - component: {fileID: -5393641207835761104}
+  - component: {fileID: 4329197928261365184}
   m_Layer: 0
   m_Name: FreeSpot
   m_TagString: Untagged
@@ -118,3 +119,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 349207523c9d4a340834d4deeafe7c49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4329197928261365184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4279788616199384025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 1, g: 0, b: 0, a: 1}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1

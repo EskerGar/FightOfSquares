@@ -8,10 +8,13 @@ public class GameManager : MonoBehaviour
     public bool FirstPlayerTurn { get; private set; }
     public FreeSpots FreeSpots { get; private set; }
     public CubeBehaviour CubeBehaviour { get; private set; }
+    public bool ai;
+    public bool ReturnAI => ai;
     public GameObject UI;
     private UIScore uiScore;
     private EndGame endGame;
     private UITurn uiTurn;
+    public bool AiSide { get; private set; }
     public float FirstPlayerScore { get; private set; } = 0;
     public float SecondPlayerScore { get; private set; } = 0;
 
@@ -31,16 +34,28 @@ public class GameManager : MonoBehaviour
         OnEndGame += endGame.GameEnded;
         OnTurnChange += NextTurn;
         OnTurnChange += uiTurn.ChangeTurn;
+        OnTurnChange += AiTurn;
     }
 
-    public void GetFirstTurnRandom() => FirstPlayerTurn = Random.Range(0, 2) > 0 ? true : false;
+    public void GetFirstTurnRandom()
+    {
+        FirstPlayerTurn = Random.Range(0, 2) > 0 ? true : false;
+        AiSide = false;
+    }
 
     public void NextTurn()
     {
         FreeSpots.DeactiveFreeSpots();
         CubeBehaviour.CubeRefresh();
         FirstPlayerTurn = !FirstPlayerTurn;
+        AiSide = !AiSide;
         if(FreeSpots.NoSpots)
+            CubeBehaviour.GenerationCube();
+    }
+
+    private void AiTurn()
+    {
+        if (AiSide && ai)
             CubeBehaviour.GenerationCube();
     }
 

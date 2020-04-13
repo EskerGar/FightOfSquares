@@ -12,6 +12,8 @@ public class EndGame : MonoBehaviour
     {
         button.SetActive(false);
         winner.SetActive(true);
+        gameObject.GetComponent<CubeBehaviour>().enabled = false;
+        gameObject.GetComponent<FreeSpots>().enabled = false;
         winner.GetComponent<Text>().text = WhoIsWin();
     }
 

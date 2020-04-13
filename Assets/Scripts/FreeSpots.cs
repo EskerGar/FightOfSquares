@@ -58,7 +58,16 @@ public class FreeSpots : MonoBehaviour
             Destroy(lastCube);
             NoSpots = true;
         }
-        else NoSpots = false;
+        else
+            NoSpots = false;
+        if (GameManager.Instance.AiSide && GameManager.Instance.ReturnAI && freeSpotsCount > 0)
+        {
+            int aiTurn = Random.Range(1, freeSpotsCount);
+            GameObject cube = freeSpotsList[aiTurn - 1];
+            lastCube.transform.position = cube.transform.position;
+            GameManager.Instance.AddScoreEvent();
+            GameManager.Instance.ChangeTurnEvent();
+        }
         freeSpotsCount = 0;
     }
 
@@ -128,8 +137,7 @@ public class FreeSpots : MonoBehaviour
         if ((((overlapPos.x + scale.x / 2) <= 120f) && ((overlapPos.x - scale.x / 2) >= -180f) && ((overlapPos.y + scale.y / 2) <= 145f) &&
             ((overlapPos.y - scale.y / 2) >= -35f)) && overlapsCount == 0)
         {
-            CreateFreeSpot(overlapPos);
-            freeSpotsCount++;
+            CreateFreeSpot(overlapPos); 
         }
     }
 
@@ -150,20 +158,31 @@ public class FreeSpots : MonoBehaviour
     private void CreateFreeSpot(Vector3 position)
     {
         GameObject lastCube = GameManager.Instance.CubeBehaviour.LastCube;
-        if (deactivateFreeSpotsList.Count == 0)
+        bool exsist = false;
+        foreach(var cube in freeSpotsList)
+        {
+            if (cube.transform.position.Equals(position))
+            { 
+                exsist = true;
+                break;
+            }
+        }
+        if (deactivateFreeSpotsList.Count == 0 && !exsist)
         {
             GameObject go = Instantiate(freeSpot);
             go.transform.localScale = lastCube.transform.localScale;
             go.transform.position = position;
             freeSpotsList.Add(go);
+            freeSpotsCount++;
         }
-        else
+        else if(!exsist)
         {
             deactivateFreeSpotsList[0].transform.localScale = lastCube.transform.localScale;
             deactivateFreeSpotsList[0].transform.position = position;
             deactivateFreeSpotsList[0].SetActive(true);
             freeSpotsList.Add(deactivateFreeSpotsList[0]);
             deactivateFreeSpotsList.RemoveAt(0);
+            freeSpotsCount++;
         }
     }
 
