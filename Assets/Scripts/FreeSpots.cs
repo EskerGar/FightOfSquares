@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using cakeslice;
+using System.Collections.Generic;
 using UnityEditor.Build;
 using UnityEngine;
 
@@ -172,6 +173,7 @@ public class FreeSpots : MonoBehaviour
             GameObject go = Instantiate(freeSpot);
             go.transform.localScale = lastCube.transform.localScale;
             go.transform.position = position;
+            go.GetComponent<Outline>().enabled = false;
             freeSpotsList.Add(go);
             freeSpotsCount++;
         }
@@ -180,6 +182,7 @@ public class FreeSpots : MonoBehaviour
             deactivateFreeSpotsList[0].transform.localScale = lastCube.transform.localScale;
             deactivateFreeSpotsList[0].transform.position = position;
             deactivateFreeSpotsList[0].SetActive(true);
+            deactivateFreeSpotsList[0].GetComponent<Outline>().enabled = false;
             freeSpotsList.Add(deactivateFreeSpotsList[0]);
             deactivateFreeSpotsList.RemoveAt(0);
             freeSpotsCount++;
