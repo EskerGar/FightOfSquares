@@ -30,10 +30,10 @@ public class FreeSpots : MonoBehaviour
     private void GenerateFreeSpots()
     {
         lastCube = GameManager.Instance.CubeBehaviour.LastCube;
-        List<GameObject> cubesList = GameManager.Instance.CubeBehaviour.CubesList;
+        var cubesList = GameManager.Instance.CubeBehaviour.CubesList;
         lengthList = cubesList.Count - 1;
         Vector3 currentCubeScale, currentCubePos;
-        bool firstCube = false;
+        var firstCube = false;
         scale = lastCube.transform.localScale;
         for (int i = 0; i < cubesList.Count; i++)
         {
@@ -63,8 +63,8 @@ public class FreeSpots : MonoBehaviour
             NoSpots = false;
         if (GameManager.Instance.AiSide && GameManager.Instance.ReturnAI && freeSpotsCount > 0)
         {
-            int aiTurn = Random.Range(1, freeSpotsCount);
-            GameObject cube = freeSpotsList[aiTurn - 1];
+            var aiTurn = Random.Range(1, freeSpotsCount);
+            var cube = freeSpotsList[aiTurn - 1];
             lastCube.transform.position = cube.transform.position;
             GameManager.Instance.AddScoreEvent();
             GameManager.Instance.ChangeTurnEvent();
@@ -148,27 +148,25 @@ public class FreeSpots : MonoBehaviour
         {
             CreateFreeSpot(new Vector3(120f - lastCube.transform.localScale.x / 2, -35f + lastCube.transform.localScale.y / 2, 115f));
             return true;
-        }else if ((cubesList[0] == lastCube || cubesList[1] == lastCube) && lastCube.CompareTag("secondPlayerCube"))
-        {
-            CreateFreeSpot(new Vector3(-180f + lastCube.transform.localScale.x / 2, 145f - lastCube.transform.localScale.y / 2, 115f));
-            return true;
         }
-            return false;
+
+        if ((cubesList[0] != lastCube && cubesList[1] != lastCube) ||
+            !lastCube.CompareTag("secondPlayerCube")) return false;
+        CreateFreeSpot(new Vector3(-180f + lastCube.transform.localScale.x / 2, 145f - lastCube.transform.localScale.y / 2, 115f));
+        return true;
     }
 
     private void CreateFreeSpot(Vector3 position)
     {
         GameObject lastCube = GameManager.Instance.CubeBehaviour.LastCube;
-        bool exsist = false;
+        bool exist = false;
         foreach(var cube in freeSpotsList)
         {
-            if (cube.transform.position.Equals(position))
-            { 
-                exsist = true;
-                break;
-            }
+            if (!cube.transform.position.Equals(position)) continue;
+            exist = true;
+            break;
         }
-        if (deactivateFreeSpotsList.Count == 0 && !exsist)
+        if (deactivateFreeSpotsList.Count == 0 && !exist)
         {
             GameObject go = Instantiate(freeSpot);
             go.transform.localScale = lastCube.transform.localScale;
@@ -177,7 +175,7 @@ public class FreeSpots : MonoBehaviour
             freeSpotsList.Add(go);
             freeSpotsCount++;
         }
-        else if(!exsist)
+        else if(!exist)
         {
             deactivateFreeSpotsList[0].transform.localScale = lastCube.transform.localScale;
             deactivateFreeSpotsList[0].transform.position = position;

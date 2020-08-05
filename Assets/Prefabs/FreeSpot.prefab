@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 5563288025826730855}
   - component: {fileID: 6327278699522547506}
   - component: {fileID: 265371196127161341}
-  - component: {fileID: -5393641207835761104}
   - component: {fileID: -5981509189489812095}
-  - component: {fileID: 1190797699680817113}
+  - component: {fileID: 9029328031321358769}
   m_Layer: 0
   m_Name: FreeSpot
   m_TagString: Untagged
@@ -58,6 +57,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -108,18 +108,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &-5393641207835761104
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4279788616199384025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 349207523c9d4a340834d4deeafe7c49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-5981509189489812095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,7 +115,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4279788616199384025}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
   m_Name: 
@@ -136,7 +124,7 @@ MonoBehaviour:
   eraseRenderer: 0
   originalLayer: 0
   originalMaterials: []
---- !u!114 &1190797699680817113
+--- !u!114 &9029328031321358769
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,6 +133,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 4279788616199384025}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e476a3202cc55934281c6ff7cb0d9825, type: 3}
+  m_Script: {fileID: 11500000, guid: 165e342f70b3ab6448eb33d33ce89f39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
