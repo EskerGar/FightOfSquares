@@ -13,8 +13,8 @@ namespace Players
         protected List<GameObject> CubeList { get; } = new List<GameObject>();
 
         protected readonly Vector3 startPos;
-        private readonly ICreateCube _cubeCreator;
-        private readonly ICreateFreeSpot _freeSpotCreator;
+        private readonly CreateCube _cubeCreator;
+        private readonly CreateFreeSpot _freeSpotCreator;
         private readonly Material _material;
         protected GameObject lastCube;
 
@@ -22,8 +22,8 @@ namespace Players
         {
             IsYourTurn = isYourTurn;
             var spawner = Object.FindObjectOfType<CreateCube>().gameObject;
-            _cubeCreator = spawner.GetComponent<ICreateCube>();
-            _freeSpotCreator = spawner.GetComponent<ICreateFreeSpot>();
+            _cubeCreator = spawner.GetComponent<CreateCube>();
+            _freeSpotCreator = spawner.GetComponent<CreateFreeSpot>();
             this.startPos = startPos;
             _material = material;
         }

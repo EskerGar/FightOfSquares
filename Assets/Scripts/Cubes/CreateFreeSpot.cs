@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Cubes
 {
-    public class CreateFreeSpot: MonoBehaviour, ICreateFreeSpot
+    public class CreateFreeSpot: MonoBehaviour
     {
         [SerializeField] private GameObject freeSpotPrefab;
 

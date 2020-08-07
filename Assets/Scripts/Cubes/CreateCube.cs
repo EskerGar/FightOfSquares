@@ -4,7 +4,7 @@ using Random = UnityEngine.Random;
 
 namespace Cubes
 {
-    public class CreateCube : MonoBehaviour, ICreateCube
+    public class CreateCube : MonoBehaviour
     {
         [SerializeField] private GameObject cubePrefab;
         
