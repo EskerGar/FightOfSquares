@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cubes;
 using Players;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -12,11 +13,13 @@ public class TurnManager: MonoBehaviour
    [SerializeField] private Field field;
    
    private readonly List<Player> _playerList = new List<Player>();
+   private float _allSquare;
 
    private void Start()
    {
        CreatePlayers();
-       StartCoroutine(ChangeTurn());
+       StartCoroutine(StartGame());
+       _allSquare = field.GetSquare();
    }
 
    private void CreatePlayers()
@@ -28,21 +31,36 @@ public class TurnManager: MonoBehaviour
            field.InstallSettings(settingsList[i], i);
        }
        
-       _playerList.Add(new HumanPlayer(isFirstPlayer,  settingsList[0]));
-       _playerList.Add(new HumanPlayer(!isFirstPlayer, settingsList[1]));
+       _playerList.Add(new AiPlayer(isFirstPlayer,  settingsList[0]));
+       _playerList.Add(new AiPlayer(!isFirstPlayer, settingsList[1]));
 
    }
 
+   private IEnumerator StartGame()
+   {
+       var turnCoroutine = StartCoroutine(ChangeTurn());
+       yield return new WaitUntil(CheckScore);
+       StopCoroutine(turnCoroutine);
+       
+   }
+   
    private IEnumerator ChangeTurn()
    {
        while (true)
        {
            var player = GetTurnPlayer();
            player.DoTurn();
-           yield return new WaitWhile(() => player.IsYourTurn);
+           yield return new WaitWhile(() => FsPool.FreeSpotsList.Count > 0);
            ChangePlayers(player);
        }
    }
+
+   private bool CheckScore()
+   {
+       var score = _playerList.Aggregate<Player, float>(0, (current, player) => current + player.Score);
+       return Math.Abs(score - _allSquare) < 0.1f;
+   }
+   
 
    private Player GetTurnPlayer()
    {
@@ -53,6 +71,8 @@ public class TurnManager: MonoBehaviour
    {
        foreach (var player in _playerList.Where(player => !player.Equals(prevPlayer)))
        {
+           prevPlayer.ControlLastCube();
+           prevPlayer.IsYourTurn = false;
            player.IsYourTurn = true;
        }
    }

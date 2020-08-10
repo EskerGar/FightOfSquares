@@ -8,14 +8,17 @@ namespace Players
 {
     public class AiPlayer : Player
     {
+        private readonly bool _isUpPlace;
 
         public AiPlayer(bool isYourTurn, PlayerSettings settings) : base(isYourTurn, settings)
         {
+            _isUpPlace = settings.IsUpPlace;
         }
 
         protected override void TurnLogic()
         {
-            if (isUpPlace)
+            if(FsPool.FreeSpotsList.Count <= 0) return;
+            if (_isUpPlace)
                 lastCube.SetPlace(FindRightSpot(
                     (freeSpot, rightFreeSpot) =>
                     {
@@ -33,8 +36,9 @@ namespace Players
                         return freeSpotPos.x < rightSpotPos.x &&
                                freeSpotPos.y < rightSpotPos.y;
                     }).transform.position);
-            //lastCube = null;
-            IsYourTurn = false;
+            CubeList.Add(lastCube);
+            Score += lastCube.GetSquare();
+            lastCube = null;
             DeactivateFreeSpots(null);
         }
 

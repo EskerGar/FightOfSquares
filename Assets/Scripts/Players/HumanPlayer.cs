@@ -19,11 +19,12 @@ namespace Players
 
             private void ClickOnFreeSpot(Vector3 freeSpotPos)
         {
-            //if(lastCube != null)
+            if(lastCube != null)
                 lastCube.SetPlace(freeSpotPos);
             FsPool.DeactivateFreeSpots(ClickOnFreeSpot);
-            //lastCube = null;
-            IsYourTurn = false;
+            CubeList.Add(lastCube);
+            Score += lastCube.GetSquare();
+            lastCube = null;
         }
     }
 }

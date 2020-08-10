@@ -9,17 +9,16 @@ namespace Players
     public abstract class Player
     {
         public bool IsYourTurn { get; set; }
-        public int Score { get; private set; }
+        public int Score { get; protected set; }
 
         protected GameObject lastCube;
         
-        private List<GameObject> CubeList { get; } = new List<GameObject>();
+        protected List<GameObject> CubeList { get; } = new List<GameObject>();
         private Vector3 _startPos;
         private readonly CreateCube _cubeCreator;
         private readonly CreateFreeSpot _freeSpotCreator;
         private readonly Material _material;
         private readonly int _sideCoef;
-        protected readonly bool isUpPlace;
         private Func<Vector3, Vector3, Vector3> _addToStartPos;
 
         protected Player(bool isYourTurn, PlayerSettings settings)
@@ -30,19 +29,28 @@ namespace Players
             _freeSpotCreator = spawner.GetComponent<CreateFreeSpot>();
             _startPos = settings.StartPos;
             _material = settings.Material;
-            isUpPlace = settings.IsUpPlace;
             _sideCoef = settings.SideCoef;
         }
         
         public void DoTurn()
         {
-            lastCube = _cubeCreator.Generate();
+            if (lastCube != null && CubeList.Count > 1)
+            {
+                lastCube.SetActive(true);
+                lastCube.transform.localScale = _cubeCreator.GenerateSize();
+            }
+            else
+            {
+             lastCube = _cubeCreator.Generate();
+            }
             lastCube.SetMaterial(_material);
             if (CubeList.Count <= 0)
             {
                 var halfSize = lastCube.transform.localScale / 2;
                 _startPos = new Vector3( _startPos.x +_sideCoef * halfSize.x,  _startPos.y - _sideCoef * halfSize.y);
                 lastCube.SetPlace(_startPos);
+                CubeList.Add(lastCube);
+                Score += lastCube.GetSquare();
                 FsPool.DeactivateFreeSpots(null);
                 IsYourTurn = false;
             }
@@ -54,8 +62,12 @@ namespace Players
                 }
                 TurnLogic();
             }
-            Score += lastCube.GetSquare();
-            CubeList.Add(lastCube);
+        }
+
+        public void ControlLastCube()
+        {
+            if(lastCube != null && CubeList.Count > 1)
+                lastCube.SetActive(false);
         }
         
         

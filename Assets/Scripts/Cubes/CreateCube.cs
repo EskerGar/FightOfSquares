@@ -17,7 +17,7 @@ namespace Cubes
             return cube;
         }
 
-        private Vector3 GenerateSize()
+        public Vector3 GenerateSize()
         {
             return new Vector3(Random.Range(1, 6), Random.Range(1, 6), 1);
         }
