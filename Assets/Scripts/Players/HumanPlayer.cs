@@ -5,7 +5,7 @@ namespace Players
 {
     public class HumanPlayer : Player
     {
-        public HumanPlayer(bool isYourTurn, Vector3 startPos, Material material) : base(isYourTurn, startPos, material)
+        public HumanPlayer(bool isYourTurn, PlayerSettings settings) : base(isYourTurn, settings)
         {
         }
 

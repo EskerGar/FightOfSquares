@@ -8,16 +8,14 @@ namespace Players
 {
     public class AiPlayer : Player
     {
-        private readonly bool _upSide;
-        
-        public AiPlayer(bool isYourTurn, Vector3 startPos, Material material) : base(isYourTurn, startPos, material)
+
+        public AiPlayer(bool isYourTurn, PlayerSettings settings) : base(isYourTurn, settings)
         {
-            _upSide = CheckToLeftBorder();
         }
 
         protected override void TurnLogic()
         {
-            if (_upSide)
+            if (isUpPlace)
                 lastCube.SetPlace(FindRightSpot(
                     (freeSpot, rightFreeSpot) =>
                     {
@@ -49,12 +47,6 @@ namespace Players
             }
 
             return rightFreeSpot;
-        }
-        
-
-        private bool CheckToLeftBorder()
-        {
-            return Mathf.Abs(startPos.x) - Mathf.Abs(Borders.LeftBorder) <= 4f;
         }
     }
 }

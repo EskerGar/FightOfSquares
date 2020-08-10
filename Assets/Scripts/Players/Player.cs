@@ -10,22 +10,28 @@ namespace Players
     {
         public bool IsYourTurn { get; set; }
         public int Score { get; private set; }
-        protected List<GameObject> CubeList { get; } = new List<GameObject>();
 
-        protected readonly Vector3 startPos;
+        protected GameObject lastCube;
+        
+        private List<GameObject> CubeList { get; } = new List<GameObject>();
+        private Vector3 _startPos;
         private readonly CreateCube _cubeCreator;
         private readonly CreateFreeSpot _freeSpotCreator;
         private readonly Material _material;
-        protected GameObject lastCube;
+        private readonly int _sideCoef;
+        protected readonly bool isUpPlace;
+        private Func<Vector3, Vector3, Vector3> _addToStartPos;
 
-        protected Player(bool isYourTurn, Vector3 startPos, Material material)
+        protected Player(bool isYourTurn, PlayerSettings settings)
         {
             IsYourTurn = isYourTurn;
             var spawner = Object.FindObjectOfType<CreateCube>().gameObject;
             _cubeCreator = spawner.GetComponent<CreateCube>();
             _freeSpotCreator = spawner.GetComponent<CreateFreeSpot>();
-            this.startPos = startPos;
-            _material = material;
+            _startPos = settings.StartPos;
+            _material = settings.Material;
+            isUpPlace = settings.IsUpPlace;
+            _sideCoef = settings.SideCoef;
         }
         
         public void DoTurn()
@@ -34,7 +40,9 @@ namespace Players
             lastCube.SetMaterial(_material);
             if (CubeList.Count <= 0)
             {
-                lastCube.SetPlace(startPos);
+                var halfSize = lastCube.transform.localScale / 2;
+                _startPos = new Vector3( _startPos.x +_sideCoef * halfSize.x,  _startPos.y - _sideCoef * halfSize.y);
+                lastCube.SetPlace(_startPos);
                 FsPool.DeactivateFreeSpots(null);
                 IsYourTurn = false;
             }

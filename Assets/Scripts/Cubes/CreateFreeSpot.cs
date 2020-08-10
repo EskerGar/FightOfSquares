@@ -1,11 +1,13 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Cubes
 {
     public class CreateFreeSpot: MonoBehaviour
     {
         [SerializeField] private GameObject freeSpotPrefab;
+        [SerializeField] private Field field;
 
         public void Generate(GameObject currentCube, GameObject lastCube)
         {
@@ -58,7 +60,7 @@ namespace Cubes
 
         private void CreateSpot(Vector3 position, Vector3 size)
         {
-            if (!new Overlap().CheckOverlap(position, size) || !FsPool.CheckSpot(position)) return;
+            if (!CheckOverlap(position, size) || !FsPool.CheckSpot(position)) return;
             GameObject freeSpot = FsPool.ActivateFreeSpot();
             if( freeSpot == null)
                 freeSpot = Instantiate(freeSpotPrefab);
@@ -66,6 +68,13 @@ namespace Cubes
             freeSpot.transform.localScale = size;
             freeSpot.GetComponent<FreeSpotBehaviour>().Initialize();
             FsPool.AddFreeSpot(freeSpot);
+        }
+        
+        private bool CheckOverlap(Vector3 position, Vector3 size)
+        {
+            var results = Physics2D.OverlapBoxNonAlloc(position, size, 0, new Collider2D[1], 
+                LayerMask.GetMask("CubeLayer"));
+            return results <= 0 && field.CheckFieldBorders(position, size);
         }
 
         private class IterationVectors

@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 public class TurnManager: MonoBehaviour
 {
    [SerializeField] private List<PlayerSettings> settingsList = new List<PlayerSettings>();
+   [SerializeField] private Field field;
    
    private readonly List<Player> _playerList = new List<Player>();
 
@@ -22,8 +23,13 @@ public class TurnManager: MonoBehaviour
    {
        bool isFirstPlayer;
        isFirstPlayer = Random.Range(0, 2) > 0;
-       _playerList.Add(new HumanPlayer(isFirstPlayer, settingsList[0].StartPosition, settingsList[0].Material));
-       _playerList.Add(new HumanPlayer(!isFirstPlayer, settingsList[1].StartPosition, settingsList[1].Material));
+       for (int i = 0; i < settingsList.Count; i++)
+       {
+           field.InstallSettings(settingsList[i], i);
+       }
+       
+       _playerList.Add(new HumanPlayer(isFirstPlayer,  settingsList[0]));
+       _playerList.Add(new HumanPlayer(!isFirstPlayer, settingsList[1]));
 
    }
 
