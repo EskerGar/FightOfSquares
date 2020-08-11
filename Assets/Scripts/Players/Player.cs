@@ -10,6 +10,7 @@ namespace Players
     {
         public bool IsYourTurn { get; set; }
         public int Score { get; protected set; }
+        public event Action<int> OnAddScore; 
 
         protected GameObject lastCube;
         
@@ -37,7 +38,7 @@ namespace Players
             if (lastCube != null && CubeList.Count > 1)
             {
                 lastCube.SetActive(true);
-                lastCube.transform.localScale = _cubeCreator.GenerateSize();
+                lastCube.transform.localScale = _cubeCreator.GenerateSize(lastCube);
             }
             else
             {
@@ -51,6 +52,7 @@ namespace Players
                 lastCube.SetPlace(_startPos);
                 CubeList.Add(lastCube);
                 Score += lastCube.GetSquare();
+                InvokeOnAddScore(Score);
                 FsPool.DeactivateFreeSpots(null);
                 IsYourTurn = false;
             }
@@ -72,5 +74,10 @@ namespace Players
         
         
         protected abstract void TurnLogic();
+
+        protected void InvokeOnAddScore(int score)
+        {
+            OnAddScore?.Invoke(score);
+        }
     }
 }

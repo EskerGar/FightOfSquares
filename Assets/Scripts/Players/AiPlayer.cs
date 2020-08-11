@@ -38,6 +38,7 @@ namespace Players
                     }).transform.position);
             CubeList.Add(lastCube);
             Score += lastCube.GetSquare();
+            InvokeOnAddScore(Score);
             lastCube = null;
             DeactivateFreeSpots(null);
         }

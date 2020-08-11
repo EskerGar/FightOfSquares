@@ -11,11 +11,14 @@ public class TurnManager: MonoBehaviour
 {
    [SerializeField] private List<PlayerSettings> settingsList = new List<PlayerSettings>();
    [SerializeField] private Field field;
-   
+
+   public PlayerListHandler GetHandler => _playerListHandler;
+
+   private PlayerListHandler _playerListHandler;
    private readonly List<Player> _playerList = new List<Player>();
    private float _allSquare;
 
-   private void Start()
+   private void Awake()
    {
        CreatePlayers();
        StartCoroutine(StartGame());
@@ -33,7 +36,7 @@ public class TurnManager: MonoBehaviour
        
        _playerList.Add(new AiPlayer(isFirstPlayer,  settingsList[0]));
        _playerList.Add(new AiPlayer(!isFirstPlayer, settingsList[1]));
-
+       _playerListHandler = new PlayerListHandler(_playerList);
    }
 
    private IEnumerator StartGame()
@@ -62,10 +65,7 @@ public class TurnManager: MonoBehaviour
    }
    
 
-   private Player GetTurnPlayer()
-   {
-       return _playerList.First(player => player.IsYourTurn);
-   }
+   private Player GetTurnPlayer() => _playerList.First(player => player.IsYourTurn);
 
    private void ChangePlayers(Player prevPlayer)
    {

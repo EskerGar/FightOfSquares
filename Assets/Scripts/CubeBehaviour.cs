@@ -44,7 +44,7 @@ public class CubeBehaviour : MonoBehaviour
             CubesList.Add(go);
             LastCube = go;
             CubeCreated = true;
-            LastCube.GetComponent<UISquare>().SetSquare();
+            //LastCube.GetComponent<UISquare>().SetSquare();
             OnGenerateCube.Invoke();
         }
     }

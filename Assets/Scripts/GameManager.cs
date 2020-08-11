@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public GameObject UI;
     private UIScore uiScore;
     private EndGame endGame;
-    private UITurn uiTurn;
+    //private UITurn uiTurn;
     public bool AiSide { get; private set; }
     public float FirstPlayerScore { get; private set; } = 0;
     public float SecondPlayerScore { get; private set; } = 0;
@@ -28,12 +28,12 @@ public class GameManager : MonoBehaviour
         endGame = GetComponent<EndGame>();
         GetFirstTurnRandom();
         uiScore = UI.GetComponent<UIScore>();
-        uiTurn = UI.GetComponent<UITurn>();
+        //uiTurn = UI.GetComponent<UITurn>();
         OnAddScore += AddScore;
         OnAddScore += uiScore.ChangeScore;
         OnEndGame += endGame.GameEnded;
         OnTurnChange += NextTurn;
-        OnTurnChange += uiTurn.ChangeTurn;
+        //OnTurnChange += uiTurn.ChangeTurn;
         OnTurnChange += AiTurn;
     }
 
