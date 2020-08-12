@@ -2,7 +2,7 @@
 
 namespace Cubes
 {
-    public static class ExtensionsCubeMethods
+    public static class ExtensionsMethods
     {
         public static void SetPlace(this GameObject cube, Vector3 newPos)
         {
@@ -20,6 +20,13 @@ namespace Cubes
         {
             var localScale = cube.transform.localScale;
             return (int) (localScale.x * localScale.y);
+        }
+
+        public static void SetParametrs(this GameObject obj, Vector3 position, Vector3 scale)
+        {
+            obj.SetPlace(position);
+            obj.transform.localScale = scale;
+            obj.transform.Rotate(new Vector3(0, 0, 90));
         }
     }
 }
