@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 5563288025826730855}
   - component: {fileID: 6327278699522547506}
   - component: {fileID: 265371196127161341}
-  - component: {fileID: -5981509189489812095}
   - component: {fileID: 9029328031321358769}
+  - component: {fileID: 7630297007585077629}
+  - component: {fileID: 7335551224737400414}
   m_Layer: 0
   m_Name: FreeSpot
   m_TagString: Untagged
@@ -108,22 +109,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &-5981509189489812095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4279788616199384025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color: 2
-  eraseRenderer: 0
-  originalLayer: 0
-  originalMaterials: []
 --- !u!114 &9029328031321358769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,3 +121,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 165e342f70b3ab6448eb33d33ce89f39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7630297007585077629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4279788616199384025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0.033675194, g: 0, b: 1, a: 1}
+  outlineWidth: 6
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!114 &7335551224737400414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4279788616199384025}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 3
+  eraseRenderer: 0
+  originalLayer: 0
+  originalMaterials: []

@@ -10,6 +10,7 @@ namespace Players
         public HumanPlayer(bool isYourTurn, PlayerSettings settings) : base(isYourTurn, settings)
         {
             PlayerStatistic = new PlayerStatistic();
+            NickName = PlayerStatistic.NickName;
         }
         
         protected override void TurnLogic()

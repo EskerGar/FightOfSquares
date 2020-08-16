@@ -7,6 +7,7 @@ namespace Cubes
     public class FreeSpotBehaviour : MonoBehaviour
     {
         private Outline _outline;
+        
         private event Action<Vector3> OnClick ;
         
         public void Initialize()
@@ -25,19 +26,21 @@ namespace Cubes
             OnClick -= onClick;
         }
 
-        private void OnMouseEnter()
+        public void ActivateOutline()
         {
             _outline.enabled = true;
         }
 
-        private void OnMouseExit()
+        public void DeActivateOutline()
         {
             _outline.enabled = false;
         }
-
-        private void OnMouseDown()
+        
+        public void OnTouch()
         {
+            _outline.enabled = false;
             OnClick?.Invoke(gameObject.transform.position);
         }
+        
     }
 }

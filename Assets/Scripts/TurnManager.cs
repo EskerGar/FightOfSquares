@@ -5,6 +5,7 @@ using System.Linq;
 using Cubes;
 using Players;
 using UnityEngine;
+using static Players.PlayerStatistic;
 using Random = UnityEngine.Random;
 
 public class TurnManager: MonoBehaviour
@@ -13,16 +14,21 @@ public class TurnManager: MonoBehaviour
    [SerializeField] private Field field;
 
    public PlayerListHandler GetHandler => _playerListHandler;
+   public event Action OnGameEnd;
 
    private PlayerListHandler _playerListHandler;
    private readonly List<Player> _playerList = new List<Player>();
    private float _allSquare;
-
+   
    private void Awake()
    {
        CreatePlayers();
-       StartCoroutine(StartGame());
        _allSquare = field.GetSquare();
+   }
+
+   private void Start()
+   {
+       StartCoroutine(StartGame());
    }
 
    private void CreatePlayers()
@@ -34,27 +40,43 @@ public class TurnManager: MonoBehaviour
            field.InstallSettings(settingsList[i], i);
        }
        
-       _playerList.Add(new AiPlayer(isFirstPlayer,  settingsList[0]));
+       _playerList.Add(new HumanPlayer(isFirstPlayer,  settingsList[0]));
        _playerList.Add(new AiPlayer(!isFirstPlayer, settingsList[1]));
        _playerListHandler = new PlayerListHandler(_playerList);
    }
 
    private IEnumerator StartGame()
    {
-       var turnCoroutine = StartCoroutine(ChangeTurn());
-       yield return new WaitUntil(CheckScore);
-       StopCoroutine(turnCoroutine);
-       
+       yield return StartCoroutine(ChangeTurn());
+       OnGameEnd?.Invoke();
+       _playerList[0].OffSquareCubes();
+       _playerList[1].OffSquareCubes();
+       EndGame();
    }
    
    private IEnumerator ChangeTurn()
    {
-       while (true)
+       while (!CheckScore())
        {
            var player = GetTurnPlayer();
            player.DoTurn();
            yield return new WaitWhile(() => FsPool.FreeSpotsList.Count > 0);
            ChangePlayers(player);
+       }
+   }
+
+   private void EndGame()
+   {
+       if(!_playerList.OfType<HumanPlayer>().Count().Equals(_playerList.Count))
+           return;
+       var winner = _playerListHandler.GetWinnerName();
+       if(winner == null)
+       {
+           AddDraw();
+       }
+       else
+       {
+           
        }
    }
 

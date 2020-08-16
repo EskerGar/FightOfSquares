@@ -4,6 +4,7 @@ using Cubes;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
+using PlayerSettings = Players.PlayerSettings;
 
 public class Field : MonoBehaviour
 {
@@ -77,10 +78,11 @@ public class Field : MonoBehaviour
         {
             Gizmos.DrawCube(corner.transform.position, corner.transform.localScale);
         }
-
+    #if UNITY_EDITOR
         var square = FindSquare(cornersList[0].transform.position, cornersList[1].transform.position);
         var center = FindCenter(cornersList[0].transform.position, cornersList[1].transform.position);
         Handles.Label(center, square.ToString());
+    #endif
     }
 
     private int FindSquare(Vector3 a, Vector3 b) => (int)(Mathf.Abs(a.x - b.x) * Mathf.Abs(a.y - b.y));

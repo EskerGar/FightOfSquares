@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Players;
 using UnityEngine.UI;
 
@@ -18,9 +19,16 @@ public class PlayerListHandler
         {
             if(player is HumanPlayer humanPlayer)
                 statsList.Add(humanPlayer.PlayerStatistic);
+            else
+                statsList.Add(null);
         }
 
         return statsList;
+    }
+
+    public string GetWinnerName()
+    {
+        return _playerList.Aggregate((i1,i2) => i1.Score > i2.Score ? i1 : i2).NickName;
     }
 
     public void SubscribeOnScoreEvent(List<Text> uiScoreList)

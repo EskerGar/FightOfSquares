@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Cubes;
 using UnityEngine;
+using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
 namespace Players
@@ -10,6 +11,8 @@ namespace Players
     {
         public bool IsYourTurn { get; set; }
         public int Score { get; protected set; }
+
+        public string NickName { get; protected set; }
         public event Action<int> OnAddScore; 
 
         protected GameObject lastCube;
@@ -71,7 +74,14 @@ namespace Players
             if(lastCube != null && CubeList.Count > 1)
                 lastCube.SetActive(false);
         }
-        
+
+        public void OffSquareCubes()
+        {
+            foreach (var cube in CubeList)
+            {
+                cube.transform.Find("Square").gameObject.SetActive(false);
+            }
+        }
         
         protected abstract void TurnLogic();
 

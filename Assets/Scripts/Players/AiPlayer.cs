@@ -13,6 +13,7 @@ namespace Players
         public AiPlayer(bool isYourTurn, PlayerSettings settings) : base(isYourTurn, settings)
         {
             _isUpPlace = settings.IsUpPlace;
+            NickName = "Bot";
         }
 
         protected override void TurnLogic()
