@@ -73,16 +73,17 @@ public class Field : MonoBehaviour
     
     private void OnDrawGizmos()
     {
+#if UNITY_EDITOR
         Gizmos.color = Color.red;
         foreach (var corner in cornersList)
         {
             Gizmos.DrawCube(corner.transform.position, corner.transform.localScale);
         }
-    #if UNITY_EDITOR
+    
         var square = FindSquare(cornersList[0].transform.position, cornersList[1].transform.position);
         var center = FindCenter(cornersList[0].transform.position, cornersList[1].transform.position);
         Handles.Label(center, square.ToString());
-    #endif
+#endif
     }
 
     private int FindSquare(Vector3 a, Vector3 b) => (int)(Mathf.Abs(a.x - b.x) * Mathf.Abs(a.y - b.y));

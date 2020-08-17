@@ -9,14 +9,15 @@ public class TouchInput : MonoBehaviour
     private float _zoomOutMax;
     private GameObject _prevFreeSpot;
     private Camera _camera;
-    private float _width;
-    private float _height;
+    private const float CameraMoveSpeed = 2f;
+    private Vector3 _originalMin;
+    private Vector3 _originalMax;
 
     private void Awake()
     {
         _camera = Camera.main;
-        _width  = Screen.width / 2.0f;
-        _height = Screen.height / 2.0f;
+        _originalMin  = _camera.ViewportToWorldPoint(new Vector2(0, 0));
+        _originalMax = _camera.ViewportToWorldPoint(new Vector2(1, 1));
         _zoomOutMax = _camera.orthographicSize;
     }
 
@@ -34,7 +35,6 @@ public class TouchInput : MonoBehaviour
                 MovingCamera();
                 break;
         }
-        //MovingCamera();
     }
 
     private void TouchOnFreeSpot()
@@ -81,7 +81,29 @@ public class TouchInput : MonoBehaviour
     private void MovingCamera()
     {
         var touchDeltaPosition = Input.GetTouch(0).deltaPosition;
-        _camera.transform.Translate(-touchDeltaPosition.x * 2f * Time.deltaTime, -touchDeltaPosition.y * 2f * Time.deltaTime, 0);
+        _camera.transform.Translate(
+            -touchDeltaPosition.x * CameraMoveSpeed * Time.deltaTime, 
+            -touchDeltaPosition.y * CameraMoveSpeed * Time.deltaTime, 
+            0);
+        CheckBorders();
+    }
+
+    private void CheckBorders()
+    {
+        var min = _camera.ViewportToWorldPoint(new Vector2(0, 0));
+        var max = _camera.ViewportToWorldPoint(new Vector2(1, 1));
+        var deltaVectorMin = min - _originalMin;
+        var deltaVectorMax = max - _originalMax;
+        CheckSide(() => min.x < _originalMin.x, new Vector3(1f, 0f) * Mathf.Abs(deltaVectorMin.x));
+        CheckSide(() => max.x > _originalMax.x, new Vector3(-1f, 0f) * Mathf.Abs(deltaVectorMax.x));
+        CheckSide(() => min.y < _originalMin.y, new Vector3(0f, 1f) * Mathf.Abs(deltaVectorMin.y));
+        CheckSide(() => max.y > _originalMax.y, new Vector3(0f, -1f) * Mathf.Abs(deltaVectorMax.y));
+        
     }
     
+    private void CheckSide(Func<bool> condition, Vector3 addVector)
+    {
+        if (condition())
+            _camera.transform.position += addVector;
+    }
 }
